@@ -47,26 +47,24 @@ class GuessWord(object):
 
 
 class HangmanGame(object):
-    
+    WORD_LIST = ['rmotr', 'python', 'awesome']
 
-    def __init__(self, guess_list = None, number_of_guesses = 5):
+    def __init__(self, word_list = None, number_of_guesses = 5):
         self.number_of_guesses = number_of_guesses
         self.remaining_misses = number_of_guesses
         self.previous_guesses = []
-        self.WORD_LIST = ['rmotr', 'python', 'awesome']
         
-        if not guess_list:
-            guess_word = self.select_random_word(self.WORD_LIST)
-        else:
-            guess_word = guess_list[0]
+        if not word_list:
+            word_list = self.WORD_LIST
+        guess_word = self.select_random_word(word_list)
         
         self.word = GuessWord(guess_word)
-        
-    def select_random_word(list_of_words = None):
+    
+    @classmethod
+    def select_random_word(cls, list_of_words):
         if not list_of_words:
             raise InvalidListOfWordsException("No word to select")
-        else:
-            return random.choice(list_of_words)
+        return random.choice(list_of_words)
         
     def guess(self, letter_guess):
         if self.is_finished():
